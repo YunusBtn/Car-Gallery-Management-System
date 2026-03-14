@@ -21,6 +21,6 @@ public class GalleristCar extends BaseEntity {
     @ManyToOne
     private Gallerist gallerist;
 
-    @OneToOne
+    @ManyToOne
     private Car car;
 }

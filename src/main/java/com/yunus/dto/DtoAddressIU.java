@@ -8,15 +8,15 @@ import lombok.Setter;
 @Setter
 public class DtoAddressIU {
 
-	@NotEmpty
-	private String city;
-	
-	@NotEmpty
-	private String district;
-	
-	@NotEmpty
-	private String neighborhood;
-	
-	@NotEmpty
-	private String street;
+    @NotEmpty
+    private String city;
+
+    @NotEmpty
+    private String district;
+
+    @NotEmpty
+    private String neighborhood;
+
+    @NotEmpty
+    private String street;
 }

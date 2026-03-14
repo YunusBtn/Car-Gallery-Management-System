@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "adress")
+@Table(name = "Address")
 public class Address extends BaseEntity{
 
 

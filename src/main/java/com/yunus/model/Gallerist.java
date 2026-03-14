@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "galerist")
+@Table(name = "gallerist")
 public class Gallerist extends BaseEntity{
 
     private String firstName;
@@ -21,7 +21,7 @@ public class Gallerist extends BaseEntity{
     private String lastName;
 
     @OneToOne
-    private Address adress;
+    private Address address;
 
 
 

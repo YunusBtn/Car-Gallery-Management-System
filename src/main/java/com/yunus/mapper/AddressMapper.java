@@ -6,9 +6,9 @@ import com.yunus.model.Address;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
-public interface AdressMapper {
+public interface AddressMapper {
 
-    DtoAddress toDto(Address adress);
+    DtoAddress toDto(Address Address);
 
     Address toEntity(DtoAddressIU dtoAddressIU);
 

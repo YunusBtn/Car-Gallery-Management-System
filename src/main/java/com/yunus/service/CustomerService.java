@@ -23,15 +23,15 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CustomerMapper customerMapper;
-    private final AddressRepository addressRepository;
+    private final AddressRepository AddressRepository;
     private final AccountRepository accountRepository;
 
 
     public DtoCustomer saveCustomer(DtoCustomerIU dtoCustomerIU) {
 
-        Optional<Address> optAdress = addressRepository.findById(dtoCustomerIU.getAddressId());
+        Optional<Address> optAddress = AddressRepository.findById(dtoCustomerIU.getAddressId());
 
-        if (optAdress.isEmpty()) {
+        if (optAddress.isEmpty()) {
             throw new BaseException(ErrorType.NOT_FOUND, "Girilen Adress id Geçersiz");
         }
 
@@ -41,7 +41,7 @@ public class CustomerService {
         }
 
         Customer customer = customerMapper.toEntity(dtoCustomerIU);
-        customer.setAddress(optAdress.get());
+        customer.setAddress(optAddress.get());
         customer.setAccount(optAccount.get());
 
 

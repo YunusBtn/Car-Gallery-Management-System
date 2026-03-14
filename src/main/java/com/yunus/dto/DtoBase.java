@@ -3,7 +3,7 @@ package com.yunus.dto;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -11,5 +11,5 @@ public class DtoBase {
 
 	private Long id;
 	
-	private Date createTime;
+	private LocalDateTime createTime;
 }

@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/galerist")
+@RequestMapping("/api/gallerist")
 @RequiredArgsConstructor
-public class GaleristController {
+public class GalleristController {
 
     private final GalleristService galleristService;
 

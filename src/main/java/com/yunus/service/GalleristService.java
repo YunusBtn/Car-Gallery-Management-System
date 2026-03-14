@@ -22,7 +22,6 @@ public class GalleristService {
     private final GalleristMapper galleristMapper;
     private final AddressRepository addressRepository;
 
-
     public DtoGallerist saveGallerist(DtoGalleristIU dtoGalleristIU) {
 
         Optional<Address> optionalAddress = addressRepository.findById(dtoGalleristIU.getAddressId());
@@ -31,12 +30,12 @@ public class GalleristService {
         }
 
         Gallerist gallerist = galleristMapper.toEntity(dtoGalleristIU);
-        gallerist.setAdress(optionalAddress.get());
+        gallerist.setAddress(optionalAddress.get());
         Gallerist savedGallerist = galleristRepository.save(gallerist);
 
+        Gallerist fullGallerist = galleristRepository.findById(savedGallerist.getId()).orElseThrow();
 
-        return galleristMapper.toDto(savedGallerist);
+        return galleristMapper.toDto(fullGallerist);
     }
-
 
 }

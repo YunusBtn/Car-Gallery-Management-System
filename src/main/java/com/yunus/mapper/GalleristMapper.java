@@ -2,6 +2,7 @@ package com.yunus.mapper;
 
 import com.yunus.dto.DtoGallerist;
 import com.yunus.dto.DtoGalleristIU;
+import com.yunus.model.BaseEntity;
 import com.yunus.model.Gallerist;
 import org.mapstruct.Mapper;
 

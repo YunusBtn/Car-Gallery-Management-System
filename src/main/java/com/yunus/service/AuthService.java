@@ -5,6 +5,7 @@ import com.yunus.dto.AuthResponse;
 import com.yunus.exception.BaseException;
 import com.yunus.exception.ErrorType;
 import com.yunus.model.Role;
+import com.yunus.model.Role.RoleName;
 import com.yunus.model.User;
 import com.yunus.repository.RoleRepository;
 import com.yunus.repository.UserRepository;
@@ -37,7 +38,7 @@ public class AuthService {
             throw new BaseException(ErrorType.DUPLICATE_ENTRY, "Bu Kullanıcı Adı Zaten Mevcut");
         }
 
-        Role userRole = roleRepository.findByName(Role.RoleName.USER.name()).
+        Role userRole = roleRepository.findByName(RoleName.USER).
                 orElseThrow(() -> new BaseException(ErrorType.NOT_FOUND, "USER ROLE NOT FOUND"));
 
 
