@@ -10,8 +10,10 @@ public enum ErrorType {
     VALIDATION_ERROR("Geçersiz Veri Girdiniz", HttpStatus.BAD_REQUEST),
     DUPLICATE_ENTRY("Kayıt Zaten Mevcut", HttpStatus.CONFLICT),
     ACCESS_DENIED("Yetkiniz Yok", HttpStatus.FORBIDDEN),
-    INTERNAL_ERROR("Sistem Hatası", HttpStatus.INTERNAL_SERVER_ERROR);
-
+    INTERNAL_ERROR("Sistem Hatası", HttpStatus.INTERNAL_SERVER_ERROR),
+    CURRENCY_RATES_IS_OCCURED("Kur satış Hatası",HttpStatus.INTERNAL_SERVER_ERROR),
+    CAR_STATUS_IS_ALREADY_SALED("Araç zaten satılmış",HttpStatus.BAD_REQUEST),
+    MONEY_ERROR("Bakiye Yetersiz", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final String message;
     private final HttpStatus httpStatus;
