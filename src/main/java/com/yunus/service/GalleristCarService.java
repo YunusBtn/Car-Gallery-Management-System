@@ -13,6 +13,7 @@ import com.yunus.repository.GalleristCarRepository;
 import com.yunus.repository.GalleristRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ public class GalleristCarService {
     private final CarRepository carRepository;
     private final GalleristRepository galleristRepository;
 
-
+    @Transactional
     public DtoGalleristCar saveGalleristCar(DtoGalleristCarIU dtoGalleristCarIU) {
         Optional<Gallerist> optGallerist = galleristRepository.findById(dtoGalleristCarIU.getGalleristId());
         if (optGallerist.isEmpty()) {

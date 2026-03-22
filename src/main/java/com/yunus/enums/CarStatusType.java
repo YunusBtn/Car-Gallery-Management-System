@@ -1,5 +1,5 @@
 package com.yunus.enums;
 
 public enum CarStatusType {
-    SALABLE, DAMAGED,SALED
+    SALABLE, DAMAGED,SOLD
 }

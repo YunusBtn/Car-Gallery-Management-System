@@ -18,7 +18,7 @@ public class GalleristCarController {
 
 
     @RequestMapping("/save")
-    private DtoGalleristCar saveGalleristCar(@Valid @RequestBody DtoGalleristCarIU dtoGalleristCarIU) {
+    public DtoGalleristCar saveGalleristCar(@Valid @RequestBody DtoGalleristCarIU dtoGalleristCarIU) {
         return galleristCarService.saveGalleristCar(dtoGalleristCarIU);
     }
 }

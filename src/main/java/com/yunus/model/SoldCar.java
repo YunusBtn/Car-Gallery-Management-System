@@ -1,6 +1,5 @@
 package com.yunus.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -14,8 +13,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "saled_car")
-public class SaledCar extends BaseEntity{
+@Table(name = "SOLD_car")
+public class SoldCar extends BaseEntity{
 
     @ManyToOne
     private Gallerist gallerist;

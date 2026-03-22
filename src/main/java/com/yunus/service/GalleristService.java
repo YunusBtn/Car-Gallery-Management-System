@@ -11,6 +11,7 @@ import com.yunus.repository.AddressRepository;
 import com.yunus.repository.GalleristRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -22,6 +23,7 @@ public class GalleristService {
     private final GalleristMapper galleristMapper;
     private final AddressRepository addressRepository;
 
+    @Transactional
     public DtoGallerist saveGallerist(DtoGalleristIU dtoGalleristIU) {
 
         Optional<Address> optionalAddress = addressRepository.findById(dtoGalleristIU.getAddressId());

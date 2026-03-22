@@ -12,7 +12,7 @@ public enum ErrorType {
     ACCESS_DENIED("Yetkiniz Yok", HttpStatus.FORBIDDEN),
     INTERNAL_ERROR("Sistem Hatası", HttpStatus.INTERNAL_SERVER_ERROR),
     CURRENCY_RATES_IS_OCCURED("Kur satış Hatası",HttpStatus.INTERNAL_SERVER_ERROR),
-    CAR_STATUS_IS_ALREADY_SALED("Araç zaten satılmış",HttpStatus.BAD_REQUEST),
+    CAR_STATUS_IS_ALREADY_SOLD("Araç zaten satılmış",HttpStatus.BAD_REQUEST),
     MONEY_ERROR("Bakiye Yetersiz", HttpStatus.INTERNAL_SERVER_ERROR);
 
     private final String message;

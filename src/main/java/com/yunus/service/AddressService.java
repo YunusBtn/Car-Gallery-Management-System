@@ -14,16 +14,16 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AddressService {
 
-    private final AddressRepository AddressRepository;
-    private final AddressMapper AddressMapper;
+    private final AddressRepository addressRepository;
+    private final AddressMapper addressMapper;
 
 
     public DtoAddress saveAddress(DtoAddressIU dtoAddressIU) {
 
-        Address Address = AddressMapper.toEntity(dtoAddressIU);
-        Address savedAddress = AddressRepository.save(Address);
+        Address Address = addressMapper.toEntity(dtoAddressIU);
+        Address savedAddress = addressRepository.save(Address);
 
-        return AddressMapper.toDto(savedAddress);
+        return addressMapper.toDto(savedAddress);
     }
 
 

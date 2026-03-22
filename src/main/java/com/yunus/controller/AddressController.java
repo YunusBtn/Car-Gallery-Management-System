@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/Adress")
+@RequestMapping("/api/adress")
 @RequiredArgsConstructor
 public class AddressController {
 
-    private final AddressService AddressService;
+    private final AddressService addressService;
 
     @PostMapping("/save")
     public DtoAddress saveAdress(@Valid @RequestBody DtoAddressIU dtoAddressIU) {
-        return AddressService.saveAddress(dtoAddressIU);
+        return addressService.saveAddress(dtoAddressIU);
 
     }
 

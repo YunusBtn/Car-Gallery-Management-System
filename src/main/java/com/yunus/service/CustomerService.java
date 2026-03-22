@@ -14,6 +14,7 @@ import com.yunus.repository.AddressRepository;
 import com.yunus.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -26,7 +27,7 @@ public class CustomerService {
     private final AddressRepository AddressRepository;
     private final AccountRepository accountRepository;
 
-
+    @Transactional
     public DtoCustomer saveCustomer(DtoCustomerIU dtoCustomerIU) {
 
         Optional<Address> optAddress = AddressRepository.findById(dtoCustomerIU.getAddressId());

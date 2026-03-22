@@ -1,8 +1,8 @@
 package com.yunus.controller;
 
-import com.yunus.dto.DtoSaledCar;
-import com.yunus.dto.DtoSaledCarIU;
-import com.yunus.service.SaledCarService;
+import com.yunus.dto.DtoSoldCar;
+import com.yunus.dto.DtoSoldCarIU;
+import com.yunus.service.SoldCarService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,17 +11,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/rest/api/saled-car")
+@RequestMapping("/api/SOLD-car")
 @RequiredArgsConstructor
-public class SaledCarController {
+public class SoldCarController {
 
 
-    private final SaledCarService saledCarService;
+    private final SoldCarService soldCarService;
 
 
     @PostMapping("/buy")
-    public DtoSaledCar saveSaledCar(@RequestBody @Valid DtoSaledCarIU dtoSaledCarIU) {
-        return saledCarService.buyCar(dtoSaledCarIU);
+    public DtoSoldCar saveSOLDCar(@RequestBody @Valid DtoSoldCarIU dtoSoldCarIU) {
+        return soldCarService.buyCar(dtoSoldCarIU);
     }
 
 
