@@ -7,7 +7,6 @@ public class DateUtils {
 
     private static final DateTimeFormatter TCMB_FORMAT = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
-
     private DateUtils() {
 
     }
@@ -20,6 +19,5 @@ public class DateUtils {
     public static String format(LocalDate date) {
         return date.format(TCMB_FORMAT);
     }
-
 
 }

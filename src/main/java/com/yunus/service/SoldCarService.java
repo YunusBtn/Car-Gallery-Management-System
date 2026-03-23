@@ -23,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Bu süreçte şu işlemleri gerçekleştirir:
@@ -46,7 +48,6 @@ public class SoldCarService {
     private final CarRepository carRepository;
     private final SoldCarMapper soldCarMapper;
 
-
     private BigDecimal fetchCurrentUsdRate() {
 
         String today = DateUtils.getCurrentyDate();
@@ -55,7 +56,7 @@ public class SoldCarService {
 
         if (response == null || response.getItems() == null || response.getItems().isEmpty()) {
 
-            throw new BaseException(ErrorType.CURRENCY_RATES_IS_OCCURED, "Kur verisi alınamadı...");
+            throw new BaseException(ErrorType.CURRENCY_RATES_IS_OCCURRED, "Kur verisi alınamadı...");
         }
 
         String usdValue = response.getItems().get(0).getUsd();
@@ -70,7 +71,8 @@ public class SoldCarService {
 
     }
 
-    private BigDecimal calculateRemainingTlAmount(BigDecimal carPrice, BigDecimal usdRate, BigDecimal customerUsdAmount) {
+    private BigDecimal calculateRemainingTlAmount(BigDecimal carPrice, BigDecimal usdRate,
+            BigDecimal customerUsdAmount) {
         BigDecimal remainingUsd = customerUsdAmount.subtract(carPrice);
 
         return remainingUsd.multiply(usdRate).setScale(2, RoundingMode.HALF_UP);
@@ -80,11 +82,9 @@ public class SoldCarService {
         return !CarStatusType.SOLD.equals(car.getCarStatusType());
     }
 
-
     private boolean hasEnoughBalance(BigDecimal customerUsdAmount, BigDecimal carPrice) {
         return customerUsdAmount.compareTo(carPrice) >= 0;
     }
-
 
     private SoldCar buildSOLDCar(DtoSoldCarIU dtoSoldCarIU, Car car, Customer customer) {
 
@@ -94,9 +94,8 @@ public class SoldCarService {
         soldCar.setCustomer(customer);
 
         soldCar.setGallerist(galleristRepository.findById(dtoSoldCarIU.getGalleristId())
-                .orElseThrow(() ->
-                        new BaseException(
-                                ErrorType.NOT_FOUND, dtoSoldCarIU.getGalleristId().toString())));
+                .orElseThrow(() -> new BaseException(
+                        ErrorType.NOT_FOUND, dtoSoldCarIU.getGalleristId().toString())));
 
         return soldCar;
     }
@@ -104,24 +103,23 @@ public class SoldCarService {
     @Transactional
     public DtoSoldCar buyCar(DtoSoldCarIU dtoSoldCarIU) {
 
-        //Adım 1
+        // Adım 1
         Customer customer = customerRepository.findById(dtoSoldCarIU.getCustomerId())
                 .orElseThrow(() -> new BaseException(ErrorType.NOT_FOUND, dtoSoldCarIU.getCustomerId().toString()));
 
         Car car = carRepository.findById(dtoSoldCarIU.getCarId())
                 .orElseThrow(() -> new BaseException(ErrorType.NOT_FOUND, "SOLD Car not found"));
 
-
-        //Adım 2
+        // Adım 2
         if (!isCarAvailable(car)) {
             throw new BaseException(ErrorType.CAR_STATUS_IS_ALREADY_SOLD, "Car status is already SOLD");
         }
 
-        //adim 3
+        // adim 3
 
         BigDecimal usdRate = fetchCurrentUsdRate();
 
-        //adım 4
+        // adım 4
 
         BigDecimal customerUsdAmount = convertToUsd(customer, usdRate);
 
@@ -129,15 +127,15 @@ public class SoldCarService {
             throw new BaseException(ErrorType.MONEY_ERROR, "Customer usd amount is not enough");
         }
 
-        //adım 5
+        // adım 5
         SoldCar savedSoldCar = soldCarRepository.save(
                 buildSOLDCar(dtoSoldCarIU, car, customer));
 
-        //adım 6
+        // adım 6
         car.setCarStatusType(CarStatusType.SOLD);
         carRepository.save(car);
 
-        //adım 7
+        // adım 7
 
         BigDecimal remainingTl = calculateRemainingTlAmount(
                 car.getPrice(), usdRate, customerUsdAmount);
@@ -145,12 +143,15 @@ public class SoldCarService {
         customer.getAccount().setAmount(remainingTl);
         customerRepository.save(customer);
 
-        log.info("Araç satışı tamamlandı: {}", remainingTl, car.getId(), customer.getId());
-
+        log.info("Araç satışı tamamlandı: kalan={}, araçId={}, müşteriId={}", remainingTl, car.getId(), customer.getId());
 
         return soldCarMapper.toDto(savedSoldCar);
     }
 
-
+    public List<DtoSoldCar> getAllSoldCars() {
+        return soldCarRepository.findAll()
+                .stream()
+                .map(soldCarMapper::toDto)
+                .collect(Collectors.toList());
+    }
 }
-

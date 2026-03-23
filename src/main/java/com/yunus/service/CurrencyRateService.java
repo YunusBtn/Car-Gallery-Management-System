@@ -48,7 +48,7 @@ public class CurrencyRateService {
         if (response == null || response.getItems() == null || response.getItems().isEmpty()) {
             log.warn("TCMB'den boş veya null yanıt döndü", startDate, endDate);
 
-            throw new BaseException(ErrorType.CURRENCY_RATES_IS_OCCURED, "Kur Boş döndü,Tatil oalbilir.");
+            throw new BaseException(ErrorType.CURRENCY_RATES_IS_OCCURRED, "Kur Boş döndü,Tatil oalbilir.");
         }
 
         log.info("Kur verisi başarıyla alındı.");

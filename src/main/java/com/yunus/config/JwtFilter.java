@@ -1,6 +1,5 @@
 package com.yunus.config;
 
-import com.yunus.model.User;
 import com.yunus.service.CustomUserDetailsService;
 import com.yunus.service.JwtService;
 import jakarta.servlet.FilterChain;
@@ -63,7 +62,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
             }
         } catch (Exception exception) {
-            log.warn("Jwt token hata aldı", exception.getMessage());
+            log.warn("Jwt token hata aldı: {}", exception.getMessage());
             SecurityContextHolder.clearContext();
 
         }

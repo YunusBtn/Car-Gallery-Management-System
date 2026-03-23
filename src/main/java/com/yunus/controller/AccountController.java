@@ -5,10 +5,7 @@ import com.yunus.dto.DtoAccountIU;
 import com.yunus.service.AccountService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/account")
@@ -20,6 +17,10 @@ public class AccountController {
     @PostMapping("/save")
     public DtoAccount saveAccount(@Valid @RequestBody DtoAccountIU dtoAccountIU) {
         return accountService.saveAccount(dtoAccountIU);
+    }
 
+    @GetMapping("/{id}")
+    public DtoAccount getAccountById(@PathVariable Long id) {
+        return accountService.getAccountById(id);
     }
 }

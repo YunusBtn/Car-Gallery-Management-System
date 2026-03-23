@@ -1,5 +1,5 @@
 package com.yunus.enums;
 
 public enum CurrencyType {
-    TL, USD, AVRO
+    TL, USD, EUR
 }

@@ -13,7 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,4 +42,16 @@ public class GalleristService {
         return galleristMapper.toDto(fullGallerist);
     }
 
+    public List<DtoGallerist> getAllGallerists() {
+        return galleristRepository.findAll()
+                .stream()
+                .map(galleristMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    public DtoGallerist getGalleristById(Long id) {
+        Gallerist gallerist = galleristRepository.findById(id)
+                .orElseThrow(() -> new BaseException(ErrorType.NOT_FOUND, id.toString()));
+        return galleristMapper.toDto(gallerist);
+    }
 }

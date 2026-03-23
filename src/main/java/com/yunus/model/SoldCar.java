@@ -13,7 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "SOLD_car")
+@Table(name = "sold_car")
 public class SoldCar extends BaseEntity{
 
     @ManyToOne
