@@ -31,7 +31,13 @@ public class Customer extends BaseEntity {
     @OneToOne
     private Account account;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy")
     private LocalDate birthOfDate;
 
+    @OneToOne
+    private User user;
+
 }
+
+
+

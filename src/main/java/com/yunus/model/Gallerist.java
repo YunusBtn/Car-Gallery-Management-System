@@ -23,9 +23,7 @@ public class Gallerist extends BaseEntity{
     @OneToOne
     private Address address;
 
-
-
-
-
+    @OneToOne
+    private User user;
 
 }

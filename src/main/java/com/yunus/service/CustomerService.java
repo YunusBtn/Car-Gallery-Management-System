@@ -19,6 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import com.yunus.model.User;
+import com.yunus.model.Role;
+import com.yunus.repository.UserRepository;
+import com.yunus.repository.RoleRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +33,8 @@ public class CustomerService {
     private final CustomerMapper customerMapper;
     private final AddressRepository addressRepository;
     private final AccountRepository accountRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     @Transactional
     public DtoCustomer saveCustomer(DtoCustomerIU dtoCustomerIU) {
@@ -43,9 +50,20 @@ public class CustomerService {
             throw new BaseException(ErrorType.NOT_FOUND, "Girilen Account id Geçersiz");
         }
 
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new BaseException(ErrorType.NOT_FOUND, "Kullanıcı bulunamadı: " + username));
+        
+        Role customerRole = roleRepository.findByName(Role.RoleName.CUSTOMER)
+                .orElseThrow(() -> new BaseException(ErrorType.NOT_FOUND, "Müşteri rolü bulunamadı"));
+        
+        user.getRoles().add(customerRole);
+        userRepository.save(user);
+
         Customer customer = customerMapper.toEntity(dtoCustomerIU);
         customer.setAddress(optAddress.get());
         customer.setAccount(optAccount.get());
+        customer.setUser(user);
 
 
         Customer savedCustomer = customerRepository.save(customer);
@@ -65,5 +83,17 @@ public class CustomerService {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new BaseException(ErrorType.NOT_FOUND, id.toString()));
         return customerMapper.toDto(customer);
+    }
+
+    public DtoCustomer getMyProfile() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new BaseException(ErrorType.NOT_FOUND, "Kullanıcı bulunamadı"));
+        
+        Optional<Customer> customer = customerRepository.findAll().stream()
+                .filter(c -> c.getUser() != null && c.getUser().getId().equals(user.getId()))
+                .findFirst();
+
+        return customer.map(customerMapper::toDto).orElse(null);
     }
 }

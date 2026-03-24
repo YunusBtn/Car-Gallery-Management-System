@@ -30,4 +30,9 @@ public class GalleristController {
     public DtoGallerist getGalleristById(@PathVariable Long id) {
         return galleristService.getGalleristById(id);
     }
+
+    @GetMapping("/my-profile")
+    public DtoGallerist getMyProfile() {
+        return galleristService.getMyProfile();
+    }
 }

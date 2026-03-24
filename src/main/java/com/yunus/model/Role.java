@@ -21,7 +21,7 @@ public class Role extends BaseEntity {
 
 
     public enum RoleName {
-        ADMIN, MANAGER, USER
+        ADMIN, MANAGER, USER, CUSTOMER, GALLERIST
     }
 
 

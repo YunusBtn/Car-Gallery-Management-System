@@ -30,4 +30,9 @@ public class CustomerController {
     public DtoCustomer getCustomerById(@PathVariable Long id) {
         return customerService.getCustomerById(id);
     }
+
+    @GetMapping("/my-profile")
+    public DtoCustomer getMyProfile() {
+        return customerService.getMyProfile();
+    }
 }

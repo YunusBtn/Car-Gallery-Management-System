@@ -15,6 +15,6 @@ public class AuthResponse {
     private String username;
     private String message;
     private String token;
-
-
+    private java.util.Set<String> roles;
+    private Long id;
 }

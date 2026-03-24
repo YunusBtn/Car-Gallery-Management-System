@@ -8,15 +8,21 @@ import com.yunus.mapper.AccountMapper;
 import com.yunus.model.Account;
 import com.yunus.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+
 public class AccountService {
 
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
 
+
+    @Transactional
     public DtoAccount saveAccount(DtoAccountIU dtoAccountIU){
 
         Account account = accountMapper.toEntity(dtoAccountIU);

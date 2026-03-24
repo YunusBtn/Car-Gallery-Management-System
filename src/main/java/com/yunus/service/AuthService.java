@@ -38,9 +38,21 @@ public class AuthService {
             throw new BaseException(ErrorType.DUPLICATE_ENTRY, "Bu Kullanıcı Adı Zaten Mevcut");
         }
 
-        Role userRole = roleRepository.findByName(RoleName.USER).
-                orElseThrow(() -> new BaseException(ErrorType.NOT_FOUND, "USER ROLE NOT FOUND"));
+        RoleName targetRoleName = RoleName.USER;
+        if (request.getRole() != null && !request.getRole().trim().isEmpty()) {
+            try {
+                targetRoleName = RoleName.valueOf(request.getRole().toUpperCase());
+                if (targetRoleName == RoleName.ADMIN || targetRoleName == RoleName.MANAGER) {
+                    throw new BaseException(ErrorType.ACCESS_DENIED, "Bu yetkiyle kayıt olamazsınız.");
+                }
+            } catch (IllegalArgumentException e) {
+                targetRoleName = RoleName.USER; // fallback
+            }
+        }
 
+        final RoleName finalTargetRoleName = targetRoleName;
+        Role userRole = roleRepository.findByName(targetRoleName).
+                orElseThrow(() -> new BaseException(ErrorType.NOT_FOUND, finalTargetRoleName.name() + " ROLE NOT FOUND"));
 
         User user = User.builder()
                 .username(request.getUsername())
@@ -54,10 +66,16 @@ public class AuthService {
         String token = jwtService.generateToken(userDetails);
 
 
+        java.util.Set<String> roles = user.getRoles().stream()
+                .map(r -> r.getName().name())
+                .collect(java.util.stream.Collectors.toSet());
+
         return AuthResponse.builder()
                 .token(token)
                 .username(user.getUsername())
                 .message("Kayıt Başarılı...")
+                .roles(roles)
+                .id(user.getId())
                 .build();
     }
 
@@ -72,10 +90,17 @@ public class AuthService {
 
         String token = jwtService.generateToken(userDetails);
 
+        User user = userRepository.findByUsername(request.getUsername()).orElseThrow();
+        java.util.Set<String> roles = user.getRoles().stream()
+                .map(r -> r.getName().name())
+                .collect(java.util.stream.Collectors.toSet());
+
         return AuthResponse.builder()
                 .token(token)
                 .username(request.getUsername())
                 .message("Giriş Başarılı")
+                .roles(roles)
+                .id(user.getId())
                 .build();
     }
 
