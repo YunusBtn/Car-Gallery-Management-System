@@ -25,6 +25,7 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -61,10 +62,13 @@ public class SecurityConfig {
                         .requestMatchers("/api/manager/**").hasAnyRole("ADMIN", "MANAGER")
                         .anyRequest().authenticated())
 
+                .oauth2Login(oauth2 -> oauth2
+                        .successHandler(oAuth2SuccessHandler))
+
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
-}
+}
