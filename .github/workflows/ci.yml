@@ -37,6 +37,7 @@ jobs:
           cache: 'maven'
 
       - name: Build ve test et
+        working-directory: backend
         env:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/gallery_test
           SPRING_DATASOURCE_USERNAME: test_user
