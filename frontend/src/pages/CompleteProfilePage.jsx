@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { saveAddress, saveAccount, saveCustomer, saveGallerist, getUserDetails, removeToken } from '../services/api';
 
+import { toast } from 'sonner';
+
 export default function CompleteProfilePage() {
   const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -92,7 +94,7 @@ export default function CompleteProfilePage() {
         await saveGallerist(galleristReq);
       }
 
-      alert("Profiliniz başarıyla tamamlandı. Yeniden giriş yapmanıza gerek yok, devam edebilirsiniz.");
+      toast.success("Profiliniz başarıyla tamamlandı. Yeniden giriş yapmanıza gerek yok, devam edebilirsiniz.");
       navigate('/');
 
     } catch (err) {

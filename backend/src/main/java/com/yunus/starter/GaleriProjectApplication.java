@@ -6,10 +6,13 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.yunus"})
 @EntityScan(basePackages = {"com.yunus"})
 @EnableJpaRepositories(basePackages = {"com.yunus.repository"})
+@EnableJpaAuditing
 public class GaleriProjectApplication {
 
     public static void main(String[] args) {

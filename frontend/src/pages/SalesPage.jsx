@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { toast } from 'sonner';
 import { getSoldCars, buyCar, getCars, getCustomers, getGallerists } from '../services/api';
 import Modal from '../components/Modal';
 
@@ -11,7 +12,6 @@ export default function SalesPage() {
   const [gallerists, setGallerists] = useState([]);
   const [form, setForm] = useState({ customerId: '', galleristId: '', carId: '' });
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
 
   const fetchSales = async () => {
     try {
@@ -51,8 +51,7 @@ export default function SalesPage() {
       });
       setShowModal(false);
       setForm({ customerId: '', galleristId: '', carId: '' });
-      setSuccess('Satış başarıyla tamamlandı!');
-      setTimeout(() => setSuccess(''), 3000);
+      toast.success('Satış başarıyla tamamlandı!');
       fetchSales();
     } catch (err) {
       setError(err.message);
@@ -68,7 +67,6 @@ export default function SalesPage() {
         <p className="page-subtitle">Araç satış geçmişini görüntüleyin ve yeni satış yapın</p>
       </div>
 
-      {success && <div className="success-msg">{success}</div>}
       {error && !showModal && <div className="error-msg">{error}</div>}
 
       <div className="table-container">

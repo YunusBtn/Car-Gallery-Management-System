@@ -1,3 +1,4 @@
+import { Toaster } from 'sonner';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { isLoggedIn } from './services/api';
 import Sidebar from './components/Sidebar';
@@ -25,19 +26,22 @@ function ProtectedRoute({ children }) {
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-        <Route path="/cars" element={<ProtectedRoute><CarsPage /></ProtectedRoute>} />
-        <Route path="/customers" element={<ProtectedRoute><CustomersPage /></ProtectedRoute>} />
-        <Route path="/sales" element={<ProtectedRoute><SalesPage /></ProtectedRoute>} />
-        <Route path="/complete-profile" element={<ProtectedRoute><CompleteProfilePage /></ProtectedRoute>} />
-        <Route path="/buy-car" element={<ProtectedRoute><BuyCarPage /></ProtectedRoute>} />
-        <Route path="/my-cars" element={<ProtectedRoute><CarsPage /></ProtectedRoute>} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <Toaster richColors position="top-right" />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+          <Route path="/cars" element={<ProtectedRoute><CarsPage /></ProtectedRoute>} />
+          <Route path="/customers" element={<ProtectedRoute><CustomersPage /></ProtectedRoute>} />
+          <Route path="/sales" element={<ProtectedRoute><SalesPage /></ProtectedRoute>} />
+          <Route path="/complete-profile" element={<ProtectedRoute><CompleteProfilePage /></ProtectedRoute>} />
+          <Route path="/buy-car" element={<ProtectedRoute><BuyCarPage /></ProtectedRoute>} />
+          <Route path="/my-cars" element={<ProtectedRoute><CarsPage /></ProtectedRoute>} />
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }

@@ -12,4 +12,6 @@ public class DtoBase {
 	private Long id;
 	
 	private LocalDateTime createTime;
+
+	private LocalDateTime updateTime;
 }

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { toast } from 'sonner';
 import { getCars, saveCar, deleteCar } from '../services/api';
 import Modal from '../components/Modal';
 
@@ -19,7 +20,6 @@ export default function CarsPage() {
   const [showModal, setShowModal] = useState(false);
   const [form, setForm] = useState(EMPTY_CAR);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
 
   const fetchCars = async () => {
     try {
@@ -52,8 +52,7 @@ export default function CarsPage() {
       });
       setShowModal(false);
       setForm(EMPTY_CAR);
-      setSuccess('Araç başarıyla eklendi!');
-      setTimeout(() => setSuccess(''), 3000);
+      toast.success('Araç başarıyla eklendi!');
       fetchCars();
     } catch (err) {
       setError(err.message);
@@ -64,8 +63,7 @@ export default function CarsPage() {
     if (!window.confirm('Bu aracı silmek istediğinize emin misiniz?')) return;
     try {
       await deleteCar(id);
-      setSuccess('Araç silindi!');
-      setTimeout(() => setSuccess(''), 3000);
+      toast.success('Araç silindi!');
       fetchCars();
     } catch (err) {
       setError(err.message);
@@ -91,7 +89,6 @@ export default function CarsPage() {
         <p className="page-subtitle">Galerinizdeki tüm araçları yönetin</p>
       </div>
 
-      {success && <div className="success-msg">{success}</div>}
       {error && <div className="error-msg">{error}</div>}
 
       <div className="table-container">
