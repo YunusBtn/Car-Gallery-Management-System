@@ -26,6 +26,7 @@ public class SecurityConfig {
 
     private final JwtFilter jwtFilter;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final RateLimitingFilter rateLimitingFilter;
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -68,6 +69,7 @@ public class SecurityConfig {
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
+                .addFilterBefore(rateLimitingFilter, JwtFilter.class)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
