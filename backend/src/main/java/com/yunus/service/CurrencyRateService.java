@@ -29,8 +29,8 @@ public class CurrencyRateService {
     private final RestClient restClient;
 
 
-    public CurrencyRateService() {
-        this.restClient = RestClient.builder().build();
+    public CurrencyRateService(RestClient.Builder restClientBuilder) {
+        this.restClient = restClientBuilder.build();
     }
 
 
