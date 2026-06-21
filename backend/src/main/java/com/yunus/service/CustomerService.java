@@ -13,6 +13,8 @@ import com.yunus.repository.AccountRepository;
 import com.yunus.repository.AddressRepository;
 import com.yunus.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +39,7 @@ public class CustomerService {
     private final RoleRepository roleRepository;
 
     @Transactional
+    @CacheEvict(value = "customers", allEntries = true)
     public DtoCustomer saveCustomer(DtoCustomerIU dtoCustomerIU) {
 
         Optional<Address> optAddress = addressRepository.findById(dtoCustomerIU.getAddressId());
@@ -72,6 +75,7 @@ public class CustomerService {
 
     }
 
+    @Cacheable(value = "customers", key = "'all'")
     public List<DtoCustomer> getAllCustomers() {
         return customerRepository.findAll()
                 .stream()
@@ -79,6 +83,7 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
+    @Cacheable(value = "customers", key = "#id")
     public DtoCustomer getCustomerById(Long id) {
         Customer customer = customerRepository.findById(id)
                 .orElseThrow(() -> new BaseException(ErrorType.NOT_FOUND, id.toString()));

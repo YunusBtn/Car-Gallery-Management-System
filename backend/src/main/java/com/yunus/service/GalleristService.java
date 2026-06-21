@@ -10,6 +10,8 @@ import com.yunus.model.Gallerist;
 import com.yunus.repository.AddressRepository;
 import com.yunus.repository.GalleristRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +35,7 @@ public class GalleristService {
     private final RoleRepository roleRepository;
 
     @Transactional
+    @CacheEvict(value = "gallerists", allEntries = true)
     public DtoGallerist saveGallerist(DtoGalleristIU dtoGalleristIU) {
 
         Optional<Address> optionalAddress = addressRepository.findById(dtoGalleristIU.getAddressId());
@@ -60,6 +63,7 @@ public class GalleristService {
         return galleristMapper.toDto(fullGallerist);
     }
 
+    @Cacheable(value = "gallerists", key = "'all'")
     public List<DtoGallerist> getAllGallerists() {
         return galleristRepository.findAll()
                 .stream()
@@ -67,6 +71,7 @@ public class GalleristService {
                 .collect(Collectors.toList());
     }
 
+    @Cacheable(value = "gallerists", key = "#id")
     public DtoGallerist getGalleristById(Long id) {
         Gallerist gallerist = galleristRepository.findById(id)
                 .orElseThrow(() -> new BaseException(ErrorType.NOT_FOUND, id.toString()));

@@ -6,6 +6,7 @@ import com.yunus.exception.ErrorType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
@@ -33,6 +34,7 @@ public class CurrencyRateService {
     }
 
 
+    @Cacheable(value = "currencyRates", key = "#startDate + '-' + #endDate")
     public CurrencyRatesResponse getCurrencyRates(String startDate, String endDate) {
 
         String url = buildUrl(startDate, endDate);

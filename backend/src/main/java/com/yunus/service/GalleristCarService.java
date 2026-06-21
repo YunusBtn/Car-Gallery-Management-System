@@ -12,6 +12,8 @@ import com.yunus.repository.CarRepository;
 import com.yunus.repository.GalleristCarRepository;
 import com.yunus.repository.GalleristRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,6 +31,7 @@ public class GalleristCarService {
     private final GalleristRepository galleristRepository;
 
     @Transactional
+    @CacheEvict(value = "galleristCars", allEntries = true)
     public DtoGalleristCar saveGalleristCar(DtoGalleristCarIU dtoGalleristCarIU) {
         Optional<Gallerist> optGallerist = galleristRepository.findById(dtoGalleristCarIU.getGalleristId());
         if (optGallerist.isEmpty()) {
@@ -49,6 +52,7 @@ public class GalleristCarService {
 
     }
 
+    @Cacheable(value = "galleristCars", key = "'all'")
     public List<DtoGalleristCar> getAllGalleristCars() {
         return galleristCarRepository.findAll()
                 .stream()
