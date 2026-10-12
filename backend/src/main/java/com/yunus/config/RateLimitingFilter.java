@@ -18,10 +18,12 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 @Slf4j
+
 public class RateLimitingFilter extends OncePerRequestFilter {
 
     private final RateLimiterService rateLimiterService;
     private final ObjectMapper objectMapper;
+    private final String rateLimitExceededMessage = "Çok fazla istek gönderildi. Lütfen daha sonra tekrar deneyin.";
 
     @Override
     protected void doFilterInternal(
