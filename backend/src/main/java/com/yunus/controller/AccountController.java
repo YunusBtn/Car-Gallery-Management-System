@@ -23,4 +23,9 @@ public class AccountController {
     public DtoAccount getAccountById(@PathVariable Long id) {
         return accountService.getAccountById(id);
     }
+
+    public void deleteAccount(@PathVariable Long id) {
+        accountService.deleteAccount(id);
+    }
+
 }
